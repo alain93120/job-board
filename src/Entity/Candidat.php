@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CandidatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+// Ajoute cette ligne juste avant la déclaration de classe
+#[ApiResource]
 #[ORM\Entity(repositoryClass: CandidatRepository::class)]
 class Candidat
 {
@@ -19,7 +22,7 @@ class Candidat
     private ?string $cv = null;
 
     #[ORM\ManyToOne(inversedBy: 'candidats')]
-    private ?utilisateur $utilisateur = null;
+    private ?Utilisateur $utilisateur = null; // <- Mettre la majuscule ici aussi
 
     /**
      * @var Collection<int, Candidature>
@@ -49,12 +52,12 @@ class Candidat
         return $this;
     }
 
-    public function getUtilisateur(): ?utilisateur
+    public function getUtilisateur(): ?Utilisateur // Correction ici aussi
     {
         return $this->utilisateur;
     }
 
-    public function setUtilisateur(?utilisateur $utilisateur): static
+    public function setUtilisateur(?Utilisateur $utilisateur): static // Correction ici aussi
     {
         $this->utilisateur = $utilisateur;
 

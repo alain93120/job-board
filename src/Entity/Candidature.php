@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CandidatureRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ApiResource]
 #[ORM\Entity(repositoryClass: CandidatureRepository::class)]
 class Candidature
 {
@@ -24,10 +26,10 @@ class Candidature
     private ?string $statut = null;
 
     #[ORM\ManyToOne(inversedBy: 'candidatures')]
-    private ?candidat $candidat = null;
+    private ?Candidat $candidat = null;
 
     #[ORM\ManyToOne(inversedBy: 'candidatures')]
-    private ?offreEmploi $offreEmploi = null;
+    private ?OffreEmploi $offreEmploi = null;
 
     public function getId(): ?int
     {
@@ -42,7 +44,6 @@ class Candidature
     public function setDateCandidature(\DateTime $date_candidature): static
     {
         $this->date_candidature = $date_candidature;
-
         return $this;
     }
 
@@ -54,7 +55,6 @@ class Candidature
     public function setMessage(string $message): static
     {
         $this->message = $message;
-
         return $this;
     }
 
@@ -66,31 +66,28 @@ class Candidature
     public function setStatut(?string $statut): static
     {
         $this->statut = $statut;
-
         return $this;
     }
 
-    public function getCandidat(): ?candidat
+    public function getCandidat(): ?Candidat
     {
         return $this->candidat;
     }
 
-    public function setCandidat(?candidat $candidat): static
+    public function setCandidat(?Candidat $candidat): static
     {
         $this->candidat = $candidat;
-
         return $this;
     }
 
-    public function getOffreEmploi(): ?offreEmploi
+    public function getOffreEmploi(): ?OffreEmploi
     {
         return $this->offreEmploi;
     }
 
-    public function setOffreEmploi(?offreEmploi $offreEmploi): static
+    public function setOffreEmploi(?OffreEmploi $offreEmploi): static
     {
         $this->offreEmploi = $offreEmploi;
-
         return $this;
     }
 }

@@ -42,7 +42,6 @@ class AppFixtures extends Fixture
 
         // Création d’un candidat
         $candidat = new Candidat();
-        $candidat->setTelephone('0612345678');
         $candidat->setCv('cv_johndoe.pdf');
         $candidat->setUtilisateur($userCandidat);
         $manager->persist($candidat);

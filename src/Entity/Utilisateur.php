@@ -2,32 +2,44 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\UtilisateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ApiResource(
+    normalizationContext: ['groups' => ['utilisateur:read']],
+    denormalizationContext: ['groups' => ['utilisateur:write']]
+)]
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 class Utilisateur
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['utilisateur:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['utilisateur:read', 'utilisateur:write'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['utilisateur:write'])]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['utilisateur:read', 'utilisateur:write'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['utilisateur:read', 'utilisateur:write'])]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['utilisateur:read', 'utilisateur:write'])]
     private ?string $role = null;
 
     /**
@@ -61,7 +73,6 @@ class Utilisateur
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -73,7 +84,6 @@ class Utilisateur
     public function setPassword(string $password): static
     {
         $this->password = $password;
-
         return $this;
     }
 
@@ -85,7 +95,6 @@ class Utilisateur
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -97,7 +106,6 @@ class Utilisateur
     public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
-
         return $this;
     }
 
@@ -109,7 +117,6 @@ class Utilisateur
     public function setRole(string $role): static
     {
         $this->role = $role;
-
         return $this;
     }
 
@@ -127,19 +134,16 @@ class Utilisateur
             $this->candidats->add($candidat);
             $candidat->setUtilisateur($this);
         }
-
         return $this;
     }
 
     public function removeCandidat(Candidat $candidat): static
     {
         if ($this->candidats->removeElement($candidat)) {
-            // set the owning side to null (unless already changed)
             if ($candidat->getUtilisateur() === $this) {
                 $candidat->setUtilisateur(null);
             }
         }
-
         return $this;
     }
 
@@ -151,25 +155,22 @@ class Utilisateur
         return $this->compagnies;
     }
 
-    public function addCompagny(Compagnie $compagny): static
+    public function addCompagnie(Compagnie $compagnie): static
     {
-        if (!$this->compagnies->contains($compagny)) {
-            $this->compagnies->add($compagny);
-            $compagny->setUtilisateur($this);
+        if (!$this->compagnies->contains($compagnie)) {
+            $this->compagnies->add($compagnie);
+            $compagnie->setUtilisateur($this);
         }
-
         return $this;
     }
 
-    public function removeCompagny(Compagnie $compagny): static
+    public function removeCompagnie(Compagnie $compagnie): static
     {
-        if ($this->compagnies->removeElement($compagny)) {
-            // set the owning side to null (unless already changed)
-            if ($compagny->getUtilisateur() === $this) {
-                $compagny->setUtilisateur(null);
+        if ($this->compagnies->removeElement($compagnie)) {
+            if ($compagnie->getUtilisateur() === $this) {
+                $compagnie->setUtilisateur(null);
             }
         }
-
         return $this;
     }
 }
