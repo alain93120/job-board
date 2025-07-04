@@ -1,0 +1,175 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\UtilisateurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
+class Utilisateur
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $password = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $nom = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $prenom = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $role = null;
+
+    /**
+     * @var Collection<int, Candidat>
+     */
+    #[ORM\OneToMany(targetEntity: Candidat::class, mappedBy: 'utilisateur')]
+    private Collection $candidats;
+
+    /**
+     * @var Collection<int, Compagnie>
+     */
+    #[ORM\OneToMany(targetEntity: Compagnie::class, mappedBy: 'utilisateur')]
+    private Collection $compagnies;
+
+    public function __construct()
+    {
+        $this->candidats = new ArrayCollection();
+        $this->compagnies = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): static
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): static
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): static
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Candidat>
+     */
+    public function getCandidats(): Collection
+    {
+        return $this->candidats;
+    }
+
+    public function addCandidat(Candidat $candidat): static
+    {
+        if (!$this->candidats->contains($candidat)) {
+            $this->candidats->add($candidat);
+            $candidat->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidat(Candidat $candidat): static
+    {
+        if ($this->candidats->removeElement($candidat)) {
+            // set the owning side to null (unless already changed)
+            if ($candidat->getUtilisateur() === $this) {
+                $candidat->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Compagnie>
+     */
+    public function getCompagnies(): Collection
+    {
+        return $this->compagnies;
+    }
+
+    public function addCompagny(Compagnie $compagny): static
+    {
+        if (!$this->compagnies->contains($compagny)) {
+            $this->compagnies->add($compagny);
+            $compagny->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompagny(Compagnie $compagny): static
+    {
+        if ($this->compagnies->removeElement($compagny)) {
+            // set the owning side to null (unless already changed)
+            if ($compagny->getUtilisateur() === $this) {
+                $compagny->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+}
