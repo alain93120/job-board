@@ -1,0 +1,18 @@
+{# templates/compagnie/list.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des compagnies{% endblock %}
+
+{% block body %}
+<h1>Nos compagnies partenaires</h1>
+<ul>
+    {% for compagnie in compagnies %}
+        <li>
+            {{ compagnie.nomCompagnie }}
+            <div>{{ compagnie.description|u.truncate(100) }}</div>
+        </li>
+    {% else %}
+        <li>Aucune compagnie pour le moment.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

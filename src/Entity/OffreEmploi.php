@@ -37,7 +37,7 @@ class OffreEmploi
     private ?string $statut = null;
 
     #[ORM\ManyToOne(inversedBy: 'offreEmplois')]
-    private ?compagnie $compagnie = null;
+    private ?Compagnie $compagnie = null;
 
     /**
      * @var Collection<int, Candidature>
