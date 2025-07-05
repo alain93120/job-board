@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h1>Bienvenue, {{ app.user ? app.user.prenom : 'Visiteur' }}</h1>
+
+        <h2>Dernières offres d’emploi</h2>
+        <form method="get" class="filters mb-4 d-flex gap-2">
+            <select name="secteur" class="form-select">
+                <option value="">Secteur</option>
+                {# À remplir dynamiquement si besoin #}
+            </select>
+            <select name="lieu" class="form-select">
+                <option value="">Lieu...</option>
+                {# À remplir dynamiquement si besoin #}
+            </select>
+            <button type="submit" class="btn btn-dark">Filtrer</button>
+        </form>
+
+        <div class="row">
+            {% for offre in offres %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ offre.titre }}</h5>
+                            <p class="card-text">
+                                <strong>Entreprise :</strong> {{ offre.compagnie ? offre.compagnie.nomCompagnie : '' }}<br>
+                                <strong>Ville :</strong> {{ offre.ville ?? 'NC' }}
+                            </p>
+                            <a href="#" class="btn btn-outline-dark">Postuler</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p>Aucune offre pour le moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

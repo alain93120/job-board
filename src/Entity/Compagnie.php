@@ -7,6 +7,7 @@ use App\Repository\CompagnieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use App\Entity\Utilisateur;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ApiResource]
@@ -28,7 +29,7 @@ class Compagnie
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'compagnies')]
-    private ?utilisateur $utilisateur = null;
+    private ?Utilisateur $utilisateur = null;
 
     /**
      * @var Collection<int, OffreEmploi>
@@ -82,12 +83,12 @@ class Compagnie
         return $this;
     }
 
-    public function getUtilisateur(): ?utilisateur
+    public function getUtilisateur(): ?Utilisateur
     {
         return $this->utilisateur;
     }
 
-    public function setUtilisateur(?utilisateur $utilisateur): static
+    public function setUtilisateur(?Utilisateur $utilisateur): static
     {
         $this->utilisateur = $utilisateur;
 
