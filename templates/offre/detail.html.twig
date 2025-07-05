@@ -1,0 +1,13 @@
+{# templates/offre/detail.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de l'offre{% endblock %}
+
+{% block body %}
+<h1>{{ offre.titre }}</h1>
+<p><strong>Date :</strong> {{ offre.datePublication|date('d/m/Y') }}</p>
+<p><strong>Description :</strong> {{ offre.description }}</p>
+<p><strong>Type de contrat :</strong> {{ offre.typeDeContrat }}</p>
+<p><strong>Salaire :</strong> {{ offre.salaire }}</p>
+<p><strong>Statut :</strong> {{ offre.statut }}</p>
+{% endblock %}

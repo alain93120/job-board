@@ -13,7 +13,7 @@ class HomeController extends AbstractController
     public function index(OffreEmploiRepository $offreRepo): Response
     {
         // On récupère les dernières offres
-        $offres = $offreRepo->findBy([], ['datePublication' => 'DESC'], 6);
+        $offres = $offreRepo->findBy([], ['date_publication' => 'DESC'], 6);
 
         return $this->render('home/index.html.twig', [
             'offres' => $offres,
