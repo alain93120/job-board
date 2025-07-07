@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- AJOUT ICI -->
+        <title>Test API JWT</title>
+    </head>
+    <body>
+        <h2>Test API Utilisateurs protégée</h2>
+        <button id="test-api">Tester l'API /api/utilisateurs</button>
+        <pre id="result"></pre>
+
+        <script>
+            document.getElementById("test-api").onclick = function () {
+                const token =
+                    "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3NTE4OTgwODQsImV4cCI6MTc1MTkwMTY4NCwicm9sZXMiOlsiUk9MRV9DQU5ESURBVCJdLCJ1c2VybmFtZSI6ImFsaWNlLmR1cG9udEBlbWFpbC5jb20ifQ.ggPNHYN7OCADqtu0nIJAcjCsjUy9PpLA708yrnF3FJfh8ZclbkMbVwHMVTqOy6BxOaitRqtrQW39Z4phK1JcOZNv2LZSwPPJ4i1t8ToI_m9NXKFpWAihVIE2AEzRBrkguLfdGpez_klEb2IVEdmgTG0x5o8VT795u6HdEq0sN1LFgHpIvKdLCJ1c2VybmFtZSI6ImFsaWNlLmR1cG9udEBlbWFpbC5jb20ifQ.ggPNHYN7OCADqtu0nIJAcjCsjUy9PpLA708yrnF3FJfh8ZclbkMbVwHMVTqOy6BxOaitRqtrQW39Z4phK1JcOZNv2LZSwPPJ4i1t8ToI_m9NXKFpWAihVIE2AEzRBrkguLfdGpez_klEb2IVEdmgTG0x5o8VT795u6HdEq0sN1LFgHpIvK5Y2_dLCJ1c2VybmFtZSI6ImFsaWNlLmR1cG9udEBlbWFpbC5jb20ifQ.ggPNHYN7OCADqtu0nIJAcjCsjUy9PpLA708yrnF3FJfh8ZclbkMbVwHMVTqOy6BxOaitRqtrQW39Z4phK1JcOZNv2LZSwPPJ4i1t8ToI_m9NXKFpWAihVIE2AEzRBrkguLfdGpez_klEb2IVEdmgTG0x5o8VT795u6HdEq0sN1LFgHpIvK5Y2_JOStAs93Y8PFjujQ-rdgCeIEkaaXeF8s7QEdG4hJrmxk_SEBMsE6GKFV256DZfFeKYqZkuqx312XwCWDmfKtaeQTzyIaeTunD6-NcThG3Z8T8z0Y-AdXWzIBYlXMSaIUzt0vgvyp_iFg5x7FtI34rZJQBBVkZUiA";
+                // Mets ici ton vrai token JWT !
+
+                fetch("http://localhost:8000/api/utilisateurs", {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                    },
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        document.getElementById("result").innerText =
+                            JSON.stringify(data, null, 2);
+                    })
+                    .catch((err) => {
+                        document.getElementById("result").innerText = err;
+                    });
+            };
+        </script>
+    </body>
+</html>

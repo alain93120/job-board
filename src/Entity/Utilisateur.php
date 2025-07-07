@@ -8,13 +8,15 @@ use App\Repository\UtilisateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ApiResource(
     normalizationContext: ['groups' => ['utilisateur:read']],
     denormalizationContext: ['groups' => ['utilisateur:write']]
 )]
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-class Utilisateur
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -172,5 +174,29 @@ class Utilisateur
             }
         }
         return $this;
+    }
+
+    // --- Implémentation UserInterface / PasswordAuthenticatedUserInterface ---
+
+    public function getRoles(): array
+    {
+        // Toujours retourner un tableau !
+        return [$this->role ?? 'ROLE_USER'];
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email ?? '';
+    }
+
+    public function getUsername(): string
+    {
+        return $this->getUserIdentifier();
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Si tu stockes un plainPassword temporaire, vide-le ici
+        // $this->plainPassword = null;
     }
 }
