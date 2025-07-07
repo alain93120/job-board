@@ -1,39 +1,64 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Accueil{% endblock %}
+
 {% block body %}
-    <div class="container">
-        <h1>Bienvenue, {{ app.user ? app.user.prenom : 'Visiteur' }}</h1>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+        <div class="d-flex align-items-center">
+            <img src="{{ asset('img/jobboard-logo.png') }}" alt="Job Board" height="40" class="me-2">
+            <span class="fw-bold fs-4">JOB BOARD</span>
+        </div>
+        <nav>
+            <a href="{{ path('home') }}" class="me-3">Accueil</a>
+            <a href="#">Offres</a>
+            <a href="#">Mes candidatures</a>
+            <a href="#">Deposer</a>
+            <a href="#" class="ms-3">Inscription</a>
+        </nav>
+    </div>
+    
+    <div class="bg-light rounded-3 p-4 mb-4 text-center">
+        <h1>Bienvenue, {{ app.user ? app.user.prenom : '[Prénom]' }}</h1>
+    </div>
+    
+    <h2 class="mb-3">Dernières offres d’emploi</h2>
+    <form method="get" class="filters mb-4 d-flex gap-2">
+        <select name="secteur" class="form-select w-auto">
+            <option value="">Secteur</option>
+            {% for secteur in secteurs %}
+                <option value="{{ secteur }}" {{ secteurFiltre == secteur ? 'selected' : '' }}>{{ secteur }}</option>
+            {% endfor %}
+        </select>
+        {# Si tu veux le filtre lieu, il faudra l’ajouter dans ta BDD, sinon retire ce bloc #}
+        <input type="text" name="lieu" class="form-control w-auto" placeholder="Lieu..." value="{{ lieuFiltre ?? '' }}">
+        <button type="submit" class="btn btn-dark">Filtrer</button>
+    </form>
 
-        <h2>Dernières offres d’emploi</h2>
-        <form method="get" class="filters mb-4 d-flex gap-2">
-            <select name="secteur" class="form-select">
-                <option value="">Secteur</option>
-                {# À remplir dynamiquement si besoin #}
-            </select>
-            <select name="lieu" class="form-select">
-                <option value="">Lieu...</option>
-                {# À remplir dynamiquement si besoin #}
-            </select>
-            <button type="submit" class="btn btn-dark">Filtrer</button>
-        </form>
-
-        <div class="row">
-            {% for offre in offres %}
-                <div class="col-md-4 mb-3">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ offre.titre }}</h5>
-                            <p class="card-text">
-                                <strong>Entreprise :</strong> {{ offre.compagnie ? offre.compagnie.nomCompagnie : '' }}<br>
-                                <strong>Ville :</strong> {{ offre.ville ?? 'NC' }}
-                            </p>
-                            <a href="#" class="btn btn-outline-dark">Postuler</a>
+    <div class="row">
+        {% for offre in offres %}
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="ratio ratio-4x3 mb-2 bg-secondary bg-opacity-25 rounded">
+                        {# Image d’illustration (optionnel) #}
+                        {# <img src="..." class="img-fluid rounded" alt="Offre"> #}
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ offre.titre }}</h5>
+                        <div class="mb-2 text-muted">
+                            {{ offre.compagnie ? offre.compagnie.nomCompagnie : '' }}<br>
+                            {{ offre.ville ?? 'Ville' }}
                         </div>
+                        <a href="{{ path('offre_detail', {id: offre.id}) }}" class="btn btn-outline-dark mt-auto">Postuler</a>
                     </div>
                 </div>
-            {% else %}
-                <p>Aucune offre pour le moment.</p>
-            {% endfor %}
-        </div>
+            </div>
+        {% else %}
+            <p>Aucune offre pour le moment.</p>
+        {% endfor %}
     </div>
+    <footer class="border-top mt-5 pt-3 text-center text-muted">
+        <a href="#">Infos légales</a> &nbsp; <a href="#">Contact</a>
+    </footer>
+</div>
 {% endblock %}

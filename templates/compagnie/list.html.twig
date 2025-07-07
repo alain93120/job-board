@@ -9,7 +9,7 @@
     {% for compagnie in compagnies %}
         <li>
             {{ compagnie.nomCompagnie }}
-            <div>{{ compagnie.description|u.truncate(100) }}</div>
+            <div>{{ compagnie.description[:100] ~ '...' }}</div>
         </li>
     {% else %}
         <li>Aucune compagnie pour le moment.</li>

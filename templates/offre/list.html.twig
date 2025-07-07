@@ -1,0 +1,19 @@
+{# templates/offre/list.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des offres d'emploi{% endblock %}
+
+{% block body %}
+<h1>Liste des offres d'emploi</h1>
+<ul>
+    {% for offre in offres %}
+        <li>
+            <a href="{{ path('offre_detail', {id: offre.id}) }}">{{ offre.titre }}</a>
+            <div><strong>Salaire :</strong> {{ offre.salaire }}</div>
+            <div>{{ offre.description|slice(0, 100) ~ '...' }}</div>
+        </li>
+    {% else %}
+        <li>Aucune offre d'emploi pour le moment.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
